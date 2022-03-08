@@ -36,15 +36,16 @@ namespace Khusa.USSD.BLL.Context
                 var state = await _sessionManager.GetSessionState(request.SessionId);
                 if (state is null)
                 {
-                    _state = new LoginState();
-                    var outputHandler = await _sessionManager.AddOrUpdateSessionState(request.SessionId, _state);
+                    context.SetState(new LoginState());
                 }
                 else
                 {
-                    _state = state;
+                    context.SetState(state);
                 }
-
-                return await _state.HandleRequest(context, request);
+                context.SetState(_state);
+                var ussdResponse = await _state.HandleRequest(context, request);
+                await _sessionManager.AddOrUpdateSessionState(request.SessionId, _state);
+                return ussdResponse;
             }
             catch (Exception ex)
             {

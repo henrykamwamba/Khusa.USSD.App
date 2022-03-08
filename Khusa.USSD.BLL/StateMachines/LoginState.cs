@@ -13,19 +13,20 @@ namespace Khusa.USSD.BLL.StateMachines
             SessionType = (int)SessionTypeDTO.Continuous;
         }
 
-        public override ValueTask<UssdResponseDTO> HandleRequest(KhusaContext context, 
+        public override ValueTask<UssdResponseDTO> HandleRequest(KhusaContext context,
             UssdRequestDTO request)
         {
             var menu = new StringBuilder();
-            menu.AppendLine("Welcome to KHUSA");
-            menu.AppendLine("Enter pin");
+            menu.AppendLine("Welcome to KHUSA")
+                .AppendLine("Enter pin")
+                .AppendLine("00) Exit");
 
             var response = new UssdResponseDTO
             {
                 Message = menu.ToString(),
                 Type = SessionType.ToString()
             };
-            context.SetState(this);
+            context.SetState(new LoginConfirmState());
             return new ValueTask<UssdResponseDTO>(response);
         }
     }

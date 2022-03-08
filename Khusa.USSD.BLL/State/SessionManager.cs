@@ -1,6 +1,4 @@
 ﻿using AngleDimension.Standard.Core.General;
-using Khusa.USSD.BLL.Context;
-using Khusa.USSD.BLL.Models;
 using StackExchange.Redis.Extensions.Core.Abstractions;
 using System;
 using System.Threading.Tasks;
